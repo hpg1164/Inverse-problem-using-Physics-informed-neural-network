@@ -1,113 +1,21 @@
-The Poisson equation on a unit square 
-Ω
-=
-[
-0
-,
-1
-]
-×
-[
-0
-,
-1
-]
-Ω=[0,1]×[0,1] with zero Dirichlet boundary condition can be written as:
+## 🧠 Inverse Problem Using Physics-Informed Neural Networks (PINNs)
 
-−
-∇
-⋅
-(
-𝑐
-∇
-𝑢
-)
-=
-1
-in 
-Ω
-,
-𝑢
-=
-0
-on 
-∂
-Ω
-,
-−∇⋅(c∇u)=1in Ω,u=0on ∂Ω,
-where 
-𝑐
-c is the thermal diffusivity. This equation is relevant in thermodynamics, where it represents the steady-state heat equation. The boundary of the square is held at a constant temperature of 0, the right-hand side represents a uniform volumetric heat source, and 
-𝑐
-c governs how heat diffuses through the material.
+This project addresses the **Poisson equation** on a **unit square domain** \(\Omega = [0,1] \times [0,1]\) with **zero Dirichlet boundary conditions**:
+![image](https://github.com/user-attachments/assets/d02992c6-25bd-4bf6-8978-1c2fbd8aa539)
 
-When 
-𝑐
-=
-1
-c=1, one possible exact solution to this equation on the unit square is:
 
-𝑢
-(
-𝑥
-,
-𝑦
-)
-=
-1
-2
-𝜋
-2
-sin
-⁡
-(
-𝜋
-𝑥
-)
-sin
-⁡
-(
-𝜋
-𝑦
-)
-u(x,y)= 
-2π 
-2
- 
-1
-​
- sin(πx)sin(πy)
-(Note: This is a classical example solution for illustrative purposes, as exact solutions on the square generally involve series solutions.)
+Here, `c` is the **thermal diffusivity**. This equation is commonly encountered in **thermodynamics**, representing the **steady-state heat conduction** problem. The boundary of the square is held at a constant temperature of 0, and the source term on the right-hand side represents a **uniform volumetric heat source**. The coefficient `c` determines how heat diffuses through the material.
 
-In the forward problem, we solve for 
-𝑢
-(
-𝑥
-,
-𝑦
-)
-u(x,y) given the thermal diffusivity 
-𝑐
-c, source term, and boundary conditions. However, in the inverse problem, we do the opposite: given a known temperature distribution 
-𝑢
-(
-𝑥
-,
-𝑦
-)
-u(x,y) at a set of points, known source term, and boundary conditions, the goal is to determine the unknown coefficient 
-𝑐
-c.
+When `c = 1`, a classical example of an exact solution to this equation is:
+![image](https://github.com/user-attachments/assets/5ef853bd-9577-45cb-bd15-52c7719c2125)
 
-We can approach this using a Physics-Informed Neural Network (PINN), where we optimize both the parameters of the neural network representing 
-𝑢
-(
-𝑥
-,
-𝑦
-)
-u(x,y) and the scalar parameter 
-𝑐
-c. In this example, we assume the data is given by the exact solution above. In practical scenarios, the exact solution is typically unknown, but measurement data for 
-𝑢
-u at scattered points in the domain is available instead.
+
+In the typical **forward problem**, the goal is to compute the temperature distribution `u(x, y)` given the coefficient `c`, source term, and boundary conditions.
+
+In contrast, we focus on the **inverse problem**:
+
+> Given the solution `u(x, y)` at certain points in the domain, the known source term, and the boundary conditions, **can we recover the unknown thermal diffusivity `c`?**
+
+To solve this, we use a **Physics-Informed Neural Network (PINN)**. The network learns the solution `u(x, y)` and simultaneously optimizes the unknown parameter `c` by minimizing a loss function that incorporates the governing PDE, boundary conditions, and available data.
+
+In this example, we use synthetic data generated from the known exact solution. However, the same approach can be extended to real-world applications where the solution is measured experimentally rather than known analytically.
